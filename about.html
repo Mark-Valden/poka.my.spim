@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Связи — Пока мы спим...</title>
+
+    <style>
+        @font-face {
+            font-family: "Cinzel";
+            src: url("cinzel_regular.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Comfortaa";
+            src: url("Comfortaa.ttf") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --bg: #0b0b0d;
+            --text: #e8e5e0;
+            --secondary: #a9a6a0;
+            --muted: #69676a;
+            --accent: #b9a58d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+    margin: 0;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(185, 165, 141, 0.055),
+            transparent 38%
+        ),
+        #0b0b0d;
+    color: #e8e5e0;
+    font-size: 15px;
+    line-height: 1.7;
+        }
+
+        body {
+            font-family: "Comfortaa", sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .site-header {
+            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            background: rgba(11, 11, 13, 0.92);
+        }
+
+        .header-inner {
+            width: min(1200px, calc(100% - 40px));
+            margin: 0 auto;
+            min-height: 78px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .logo {
+            font-family: "Cinzel", serif;
+            font-size: 17px;
+            letter-spacing: 0.12em;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #a9a6a0;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            position: relative;
+            color: #a9a6a0;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.25s ease;
+        }
+
+        .main-nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -9px;
+            height: 1px;
+            background: #b9a58d;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.25s ease;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: #e8e5e0;
+        }
+
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            transform: scaleX(1);
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            width: min(1400px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 70px 0 90px;
+        }
+
+        .page-title {
+            margin: 0;
+            text-align: center;
+
+            font-family: "Cinzel", serif;
+            font-size: clamp(38px, 6vw, 62px);
+            font-weight: 400;
+            letter-spacing: 0.12em;
+        }
+
+        .page-subtitle {
+            margin: 12px 0 0;
+            text-align: center;
+
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+        }
+
+        /* =========================
+           CHARACTER SELECTOR
+        ========================= */
+
+        .character-selector {
+            width: 100%;
+            margin: 45px auto 55px;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .character-select {
+            border: 0;
+            padding: 0;
+            margin: 0;
+
+            background: transparent;
+            color: inherit;
+
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 9px;
+
+            font-family: "Comfortaa", sans-serif;
+        }
+
+        .character-select-image {
+            width: 62px;
+            height: 62px;
+
+            border-radius: 50%;
+            overflow: hidden;
+
+            border: 1px solid rgba(255, 255, 255, 0.13);
+
+            background: #151518;
+
+            transition:
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .character-select-image img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            transform: scale(var(--image-scale, 1));
+            object-position: var(--image-position, 50% 50%);
+        }
+
+        .character-select-name {
+            color: var(--secondary);
+
+            font-size: 9px;
+            letter-spacing: 0.06em;
+
+            transition: color 0.25s ease;
+        }
+
+        .character-select:hover .character-select-image {
+            border-color: rgba(185, 165, 141, 0.55);
+            transform: translateY(-2px);
+        }
+
+        .character-select.active .character-select-image {
+            border-color: #b9a58d;
+
+            box-shadow:
+                0 0 0 3px rgba(185, 165, 141, 0.08),
+                0 0 18px rgba(185, 165, 141, 0.12);
+        }
+
+        .character-select.active .character-select-name {
+            color: #e8e5e0;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .relationship-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 190px;
+
+            gap: 35px;
+
+            align-items: center;
+        }
+
+        .map-wrap {
+            min-width: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-stage {
+            position: relative;
+
+            width: min(720px, 90%);
+            height: min(620px, 88%);
+
+            aspect-ratio: 720 / 620;
+        }
+
+        .relationship-svg {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: visible;
+        }
+
+        /* =========================
+           NODES
+        ========================= */
+
+        .node {
+            position: absolute;
+
+            width: 112px;
+            height: 112px;
+
+            border-radius: 50%;
+            overflow: visible;
+
+            transform: translate(-50%, -50%);
+
+            cursor: default;
+        }
+
+        .node-image {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            border-radius: 50%;
+            overflow: hidden;
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            background: #151518;
+
+            box-shadow:
+                0 0 0 7px rgba(11, 11, 13, 0.75),
+                0 0 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .node-image img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            transform: scale(var(--image-scale, 1));
+            object-position: var(--image-position, 50% 50%);
+        }
+
+        .node-name {
+            position: relative;
+            z-index: 10;
+
+            display: table;
+            width: max-content;
+            max-width: max-content;
+
+            background: #5c4a2b;
+            border: 1px solid #80683a;
+            border-radius: 999px;
+
+            padding: 5px 12px;
+
+            left: 50%;
+            top: calc(100% + 16px);
+
+            transform: translateX(-50%);
+
+            white-space: nowrap;
+
+            color: #d8c28b;
+
+            font-size: 10px;
+            letter-spacing: 0.08em;
+
+            text-align: center;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        .node-center {
+            position: absolute;
+
+            width: 112px;
+            height: 112px;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 5;
+        }
+
+        .node-center .node-image {
+            box-shadow:
+                0 0 0 8px rgba(11, 11, 13, 0.9),
+                0 0 35px rgba(185, 165, 141, 0.12);
+        }
+
+        /* =========================
+           LEGEND
+        ========================= */
+
+        .legend {
+            padding: 20px 0;
+
+            border-left: 1px solid rgba(255, 255, 255, 0.07);
+            padding-left: 25px;
+        }
+
+        .legend-title {
+            margin-bottom: 20px;
+
+            font-family: "Cinzel", serif;
+            font-size: 13px;
+            letter-spacing: 0.1em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 13px;
+
+            color: var(--secondary);
+
+            font-size: 10px;
+        }
+
+        .legend-line {
+            width: 25px;
+            height: 2px;
+
+            flex: 0 0 auto;
+
+            border-radius: 999px;
+        }
+
+        /* =========================
+           SVG LINES
+        ========================= */
+
+        .relationship-line {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+
+            opacity: 0.8;
+        }
+
+        .relationship-glint {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.7);
+            stroke-width: 4.5;
+            stroke-linecap: round;
+
+            stroke-dasharray: 1 170;
+            stroke-dashoffset: 170;
+
+            opacity: 0;
+
+            filter: blur(0.3px);
+        }
+
+        .relationship-glint.active {
+            opacity: 0.8;
+
+            animation: relationshipGlint 2.6s linear infinite;
+        }
+
+        @keyframes relationshipGlint {
+
+            from {
+                stroke-dashoffset: 170;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .relationship-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .legend {
+                border-left: 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
+
+                padding-left: 0;
+                padding-top: 25px;
+
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px 25px;
+            }
+
+            .legend-title {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .legend-item {
+                margin-bottom: 0;
+            }
+
+        }
+
+        @media (max-width: 800px) {
+
+            .header-inner {
+                min-height: auto;
+                padding: 22px 0;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .main-nav {
+                width: 100%;
+                justify-content: center;
+                gap: 22px;
+            }
+
+            .main-nav a {
+                font-size: 10px;
+                letter-spacing: 0.05em;
+            }
+
+            .page {
+                padding-top: 50px;
+            }
+
+            .map-stage {
+                width: 96%;
+                height: auto;
+                aspect-ratio: 720 / 620;
+            }
+
+            .node,
+            .node-center {
+                width: 86px;
+                height: 86px;
+            }
+
+            .character-selector {
+                gap: 18px;
+            }
+
+            .character-select-image {
+                width: 54px;
+                height: 54px;
+            }
+
+        }
+
+        @media (max-width: 430px) {
+
+            .header-inner,
+            .page {
+                width: min(100% - 28px, 1000px);
+            }
+
+            .main-nav {
+                flex-wrap: wrap;
+                row-gap: 10px;
+                column-gap: 17px;
+            }
+
+            .main-nav a {
+                font-size: 9px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .character-selector {
+                gap: 14px;
+            }
+
+            .character-select-image {
+                width: 48px;
+                height: 48px;
+            }
+
+            .character-select-name {
+                font-size: 8px;
+            }
+
+            .node,
+            .node-center {
+                width: 68px;
+                height: 68px;
+            }
+
+            .node-name {
+                top: calc(100% + 11px);
+                font-size: 8px;
+                padding: 4px 9px;
+            }
+
+            .legend {
+                gap: 9px 17px;
+            }
+
+            .legend-item {
+                font-size: 8px;
+            }
+
+        }
+		.contacts {
+    margin-top: 105px;
+    padding-top: 35px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    text-align: center;
+}
+
+.contacts-title {
+    margin: 0 0 18px;
+
+    color: #69676a;
+
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.contacts-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.contacts-links a {
+    color: #a9a6a0;
+
+    font-size: 12px;
+
+    transition: color 0.25s ease;
+}
+
+.contacts-links a:hover {
+    color: #e8e5e0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer {
+    padding: 30px 20px 45px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+    color: #56545a;
+
+    font-size: 10px;
+    letter-spacing: 0.08em;
+
+    text-align: center;
+}
+
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            Пока мы <span>спим...</span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html">Главная</a>
+            <a href="characters.html">Персонажи</a>
+            <a href="about.html" class="active">Связи</a>
+            <a href="chapters.html">Главы</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <h1 class="page-title">
+        Связи
+    </h1>
+
+    <p class="page-subtitle">
+        Выберите персонажа
+    </p>
+
+
+    <!-- =========================
+         CHARACTER SELECTOR
+    ========================== -->
+
+    <div
+        class="character-selector"
+        id="characterSelector"
+    ></div>
+
+
+    <div class="relationship-layout">
+
+        <!-- =========================
+             MAP
+        ========================== -->
+
+        <div class="map-wrap">
+
+            <div
+                class="map-stage"
+                id="mapStage"
+            >
+
+                <svg
+                    class="relationship-svg"
+                    id="relationshipSvg"
+                    viewBox="0 0 720 620"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                ></svg>
+
+
+                <div
+                    class="node-center"
+                    id="centerNode"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             LEGEND
+        ========================== -->
+
+        <aside class="legend">
+
+            <div class="legend-title">
+                Тип связи
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#63b47a;"
+                ></span>
+
+                <span>
+                    Друзья
+                </span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#c45d5d;"
+                ></span>
+
+                <span>
+                    Враги
+                </span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#5d89c4;"
+                ></span>
+
+                <span>
+                    Союзники
+                </span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#c7a84d;"
+                ></span>
+
+                <span>
+                    Знакомые
+                </span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#c76d9a;"
+                ></span>
+
+                <span>
+                    Влюблены
+                </span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#665fb5;"
+                ></span>
+
+                <span>
+                    Не знакомы
+                </span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span
+                    class="legend-line"
+                    style="background:#9b8060;"
+                ></span>
+
+                <span>
+                    Родственники
+                </span>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+    <section class="contacts">
+
+        <p class="contacts-title">
+            Связаться с автором
+        </p>
+
+        <div class="contacts-links">
+            <a href="#" target="_blank">Telegram</a>
+            <a href="#" target="_blank">Threads</a>
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+    © 2026 Марк Вальден
+</footer>
+<script>
+
+    /* =========================================================
+       ПЕРСОНАЖИ
+
+       imagePosition:
+       50% 42% — изображение немного поднято.
+
+       Можно менять:
+
+       50% 35% — выше
+       50% 50% — по центру
+       50% 60% — ниже
+
+       45% 50% — левее
+       55% 50% — правее
+
+       imageScale:
+
+       1    — обычный размер
+       1.1  — приблизить
+       0.9  — отдалить
+       ========================================================= */
+
+    const characters = [
+
+        {
+            id: "katy",
+            name: "Кэти",
+            image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_f2uguhf2uguhf2ug.png?raw=true",
+            imagePosition: "50% 6%",
+            imageScale: 1
+        },
+
+        {
+            id: "kil",
+            name: "Кил",
+            image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_knly47knly47knly.png?raw=true",
+            imagePosition: "50% 6%",
+            imageScale: 1
+        },
+
+        {
+            id: "ker",
+            name: "Кэр",
+            image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_3xyxs03xyxs03xyx.png?raw=true",
+            imagePosition: "50% 6%",
+            imageScale: 1
+        },
+
+        {
+            id: "ksan",
+            name: "Ксан",
+            image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_8igyph8igyph8igy.png?raw=true",
+            imagePosition: "50% 8%",
+            imageScale: 1
+        },
+
+        {
+            id: "cole",
+            name: "Коул",
+            image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_ckjlj4ckjlj4ckjl.png?raw=true",
+            imagePosition: "50% 20%",
+            imageScale: 1
+        },
+
+        {
+            id: "jack",
+            name: "Джек",
+            image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_xcaq33xcaq33xcaq.png?raw=true",
+            imagePosition: "50% 42%",
+            imageScale: 1
+        },
+
+        {
+            id: "k",
+            name: "К.",
+            image: "https://i.pinimg.com/736x/08/d4/d7/08d4d70f5e7b5bd1b029c67b39df5513.jpg",
+            imagePosition: "50% 50%",
+            imageScale: 1
+        }
+
+    ];
+
+
+    /* =========================================================
+       ТИПЫ СВЯЗЕЙ
+       ========================================================= */
+
+    const relationshipTypes = {
+
+        friends: {
+            label: "Друзья",
+            color: "#63b47a"
+        },
+
+        enemies: {
+            label: "Враги",
+            color: "#c45d5d"
+        },
+
+        allies: {
+            label: "Союзники",
+            color: "#5d89c4"
+        },
+
+        acquaintances: {
+            label: "Знакомые",
+            color: "#c7a84d"
+        },
+
+        lovers: {
+            label: "Влюблены",
+            color: "#c76d9a"
+        },
+
+        unknown: {
+            label: "Не знакомы",
+            color: "#665fb5"
+        },
+
+        relatives: {
+            label: "Родственники",
+            color: "#9b8060"
+        }
+
+    };
+
+
+    /* =========================================================
+       СВЯЗИ
+       ========================================================= */
+
+    const relationships = [
+
+        {
+            a: "katy",
+            b: "ksan",
+            types: ["friends", "allies", "lovers"]
+        },
+
+        {
+            a: "katy",
+            b: "kil",
+            types: ["friends", "allies"]
+        },
+
+        {
+            a: "katy",
+            b: "ker",
+            types: ["friends", "allies"]
+        },
+
+        {
+            a: "katy",
+            b: "cole",
+            types: ["acquaintances", "enemies"]
+        },
+
+        {
+            a: "katy",
+            b: "jack",
+            types: ["allies"]
+        },
+
+        {
+            a: "katy",
+            b: "k",
+            types: ["enemies"]
+        },
+
+
+        /* Временные отношения */
+
+        {
+            a: "kil",
+            b: "ker",
+            types: ["allies", "lovers"]
+        },
+
+        {
+            a: "kil",
+            b: "ksan",
+            types: ["friends", "allies"]
+        },
+
+        {
+            a: "kil",
+            b: "cole",
+            types: ["acquaintances", "enemies"]
+        },
+
+        {
+            a: "kil",
+            b: "jack",
+            types: ["acquaintances", "allies"]
+        },
+
+        {
+            a: "kil",
+            b: "k",
+            types: ["enemies"]
+        },
+
+        {
+            a: "ker",
+            b: "ksan",
+            types: ["friends", "allies"]
+        },
+
+        {
+            a: "ker",
+            b: "cole",
+            types: ["acquaintances", "enemies"]
+        },
+
+        {
+            a: "ker",
+            b: "jack",
+            types: ["acquaintances" ,"allies"]
+        },
+
+        {
+            a: "ker",
+            b: "katy",
+            types: ["friends", "allies"]
+        },
+
+        {
+            a: "ker",
+            b: "kil",
+            types: ["allies", "lovers"]
+        },
+
+        {
+            a: "ker",
+            b: "k",
+            types: ["enemies"]
+        },
+
+        {
+            a: "cole",
+            b: "ker",
+            types: ["acquaintances", "enemies"]
+        },
+
+        {
+            a: "cole",
+            b: "kil",
+            types: ["acquaintances", "enemies"]
+        },
+
+        {
+            a: "cole",
+            b: "ksan",
+            types: ["relatives"]
+        },
+
+        {
+            a: "cole",
+            b: "katy",
+            types: ["acquaintances", "enemies"]
+        },
+
+        {
+            a: "cole",
+            b: "k",
+            types: ["allies"]
+        },
+
+        {
+            a: "cole",
+            b: "jack",
+            types: ["unknown", "enemies"]
+        },
+
+        {
+            a: "ksan",
+            b: "cole",
+            types: ["relatives"]
+        },
+
+        {
+            a: "ksan",
+            b: "ker",
+            types: ["friends"]
+        },
+
+        {
+            a: "ksan",
+            b: "kil",
+            types: ["friends"]
+        },
+
+        {
+            a: "ksan",
+            b: "katy",
+            types: ["friends"]
+        },
+
+        {
+            a: "ksan",
+            b: "k",
+            types: ["unknown"]
+        },
+
+        {
+            a: "ksan",
+            b: "jack",
+            types: ["acquaintances"]
+        },
+
+        {
+            a: "k",
+            b: "cole",
+            types: ["allies", "acquaintances"]
+        },
+
+        {
+            a: "k",
+            b: "ker",
+            types: ["enemies"]
+        },
+
+        {
+            a: "k",
+            b: "kil",
+            types: ["enemies"]
+        },
+
+        {
+            a: "k",
+            b: "ksan",
+            types: ["unknown"]
+        },
+
+        {
+            a: "k",
+            b: "katy",
+            types: ["enemies"]
+        },
+
+        {
+            a: "k",
+            b: "jack",
+            types: ["enemies"]
+        },
+
+        {
+            a: "jack",
+            b: "cole",
+            types: ["enemies", "allies"]
+        },
+
+        {
+            a: "jack",
+            b: "ker",
+            types: ["enemies", "allies"]
+        },
+
+        {
+            a: "jack",
+            b: "kil",
+            types: ["enemies", "allies"]
+        },
+
+        {
+            a: "jack",
+            b: "ksan",
+            types: ["acquaintances"]
+        },
+
+        {
+            a: "jack",
+            b: "katy",
+            types: ["enemies", "allies"]
+        },
+
+        {
+            a: "jack",
+            b: "k",
+            types: ["enemies"]
+        },
+
+    ];
+
+
+    /* =========================================================
+       СОСТОЯНИЕ
+       ========================================================= */
+
+    let selectedCharacter = "katy";
+
+
+    const selector =
+        document.getElementById(
+            "characterSelector"
+        );
+
+
+    const mapStage =
+        document.getElementById(
+            "mapStage"
+        );
+
+
+    const svg =
+        document.getElementById(
+            "relationshipSvg"
+        );
+
+
+    const centerNode =
+        document.getElementById(
+            "centerNode"
+        );
+
+
+    /* =========================================================
+       SVG
+       ========================================================= */
+
+    const SVG_NS =
+        "http://www.w3.org/2000/svg";
+
+
+    function createSvgElement(
+        tag,
+        attributes = {}
+    ) {
+
+        const element =
+            document.createElementNS(
+                SVG_NS,
+                tag
+            );
+
+
+        Object.entries(attributes)
+            .forEach(
+                ([key, value]) => {
+
+                    element.setAttribute(
+                        key,
+                        value
+                    );
+
+                }
+            );
+
+
+        return element;
+
+    }
+
+
+    /* =========================================================
+       IMAGE
+       ========================================================= */
+
+    function createImageElement(
+        character
+    ) {
+
+        if (character.placeholder) {
+
+            const placeholder =
+                document.createElement("div");
+
+
+            placeholder.style.width =
+                "100%";
+
+            placeholder.style.height =
+                "100%";
+
+
+            placeholder.style.display =
+                "flex";
+
+            placeholder.style.alignItems =
+                "center";
+
+            placeholder.style.justifyContent =
+                "center";
+
+
+            placeholder.style.background =
+                "radial-gradient(circle at center, #29292d 0%, #111114 75%)";
+
+
+            placeholder.style.color =
+                "#a9a6a0";
+
+
+            placeholder.style.fontFamily =
+                '"Cinzel", serif';
+
+
+            placeholder.style.fontSize =
+                "32px";
+
+
+            placeholder.textContent =
+                "?";
+
+
+            return placeholder;
+
+        }
+
+
+        const image =
+            document.createElement("img");
+
+
+        image.src =
+            character.image;
+
+
+        image.alt =
+            character.name;
+
+
+        image.style.setProperty(
+            "--image-position",
+            character.imagePosition ||
+            "50% 50%"
+        );
+
+
+        image.style.setProperty(
+            "--image-scale",
+            character.imageScale ||
+            1
+        );
+
+
+        return image;
+
+    }
+
+
+    /* =========================================================
+       SELECTOR
+       ========================================================= */
+
+    function renderCharacterSelector() {
+
+        selector.innerHTML = "";
+
+
+        characters.forEach(
+            character => {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.type =
+                    "button";
+
+
+                button.className =
+                    "character-select";
+
+
+                if (
+                    character.id ===
+                    selectedCharacter
+                ) {
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                const imageWrapper =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                imageWrapper.className =
+                    "character-select-image";
+
+
+                const image =
+                    createImageElement(
+                        character
+                    );
+
+
+                imageWrapper.appendChild(
+                    image
+                );
+
+
+                const name =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                name.className =
+                    "character-select-name";
+
+
+                name.textContent =
+                    character.name;
+
+
+                button.appendChild(
+                    imageWrapper
+                );
+
+
+                button.appendChild(
+                    name
+                );
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        selectedCharacter =
+                            character.id;
+
+
+                        renderCharacterSelector();
+                        renderMap();
+
+                    }
+                );
+
+
+                selector.appendChild(
+                    button
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       CHARACTER NODE
+       ========================================================= */
+
+    function createCharacterNode(
+        character
+    ) {
+
+        const node =
+            document.createElement(
+                "div"
+            );
+
+
+        node.className =
+            "node";
+
+
+        const imageWrapper =
+            document.createElement(
+                "div"
+            );
+
+
+        imageWrapper.className =
+            "node-image";
+
+
+        const image =
+            createImageElement(
+                character
+            );
+
+
+        imageWrapper.appendChild(
+            image
+        );
+
+
+        const name =
+            document.createElement(
+                "div"
+            );
+
+
+        name.className =
+            "node-name";
+
+
+        name.textContent =
+            character.name;
+
+
+        node.appendChild(
+            imageWrapper
+        );
+
+
+        node.appendChild(
+            name
+        );
+
+
+        return node;
+
+    }
+
+
+    /* =========================================================
+       CENTER NODE
+       ========================================================= */
+
+    function renderCenterNode(
+        character
+    ) {
+
+        centerNode.innerHTML = "";
+
+
+        const imageWrapper =
+            document.createElement(
+                "div"
+            );
+
+
+        imageWrapper.className =
+            "node-image";
+
+
+        const image =
+            createImageElement(
+                character
+            );
+
+
+        imageWrapper.appendChild(
+            image
+        );
+
+
+        const name =
+            document.createElement(
+                "div"
+            );
+
+
+        name.className =
+            "node-name";
+
+
+        name.textContent =
+            character.name;
+
+
+        centerNode.appendChild(
+            imageWrapper
+        );
+
+
+        centerNode.appendChild(
+            name
+        );
+
+    }
+
+
+    /* =========================================================
+       FIND RELATIONSHIP
+       ========================================================= */
+
+    function getRelationship(
+        a,
+        b
+    ) {
+
+        return relationships.find(
+            relation =>
+
+                (
+                    relation.a === a &&
+                    relation.b === b
+                )
+
+                ||
+
+                (
+                    relation.a === b &&
+                    relation.b === a
+                )
+        );
+
+    }
+
+
+    /* =========================================================
+       POINT ON CIRCLE
+       ========================================================= */
+
+    function pointOnCircle(
+        centerX,
+        centerY,
+        targetX,
+        targetY,
+        radius
+    ) {
+
+        const dx =
+            targetX - centerX;
+
+
+        const dy =
+            targetY - centerY;
+
+
+        const distance =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+
+        if (
+            distance === 0
+        ) {
+
+            return {
+                x: centerX,
+                y: centerY
+            };
+
+        }
+
+
+        return {
+
+            x:
+                centerX +
+                (dx / distance) *
+                radius,
+
+            y:
+                centerY +
+                (dy / distance) *
+                radius
+
+        };
+
+    }
+
+
+    /* =========================================================
+       RELATIONSHIP GRADIENT
+       ========================================================= */
+
+    function createRelationshipGradient(
+        id,
+        types,
+        x1,
+        y1,
+        x2,
+        y2
+    ) {
+
+        const gradient =
+            createSvgElement(
+                "linearGradient",
+                {
+                    id,
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    gradientUnits:
+                        "userSpaceOnUse"
+                }
+            );
+
+
+        const segment =
+            100 /
+            types.length;
+
+
+        const softness =
+            Math.min(
+                3,
+                segment * 0.12
+            );
+
+
+        types.forEach(
+            (type, index) => {
+
+                const color =
+                    relationshipTypes[
+                        type
+                    ].color;
+
+
+                const start =
+                    index *
+                    segment;
+
+
+                const end =
+                    (index + 1) *
+                    segment;
+
+
+                if (
+                    index === 0
+                ) {
+
+                    gradient.appendChild(
+                        createSvgElement(
+                            "stop",
+                            {
+                                offset:
+                                    `${start}%`,
+
+                                "stop-color":
+                                    color
+                            }
+                        )
+                    );
+
+                }
+
+
+                gradient.appendChild(
+                    createSvgElement(
+                        "stop",
+                        {
+                            offset:
+                                `${Math.max(
+                                    start,
+                                    end - softness
+                                )}%`,
+
+                            "stop-color":
+                                color
+                        }
+                    )
+                );
+
+
+                if (
+                    index <
+                    types.length - 1
+                ) {
+
+                    const nextColor =
+                        relationshipTypes[
+                            types[index + 1]
+                        ].color;
+
+
+                    gradient.appendChild(
+                        createSvgElement(
+                            "stop",
+                            {
+                                offset:
+                                    `${Math.min(
+                                        100,
+                                        end + softness
+                                    )}%`,
+
+                                "stop-color":
+                                    nextColor
+                            }
+                        )
+                    );
+
+                }
+
+            }
+        );
+
+
+        return gradient;
+
+    }
+
+
+    /* =========================================================
+       CREATE LINE
+       ========================================================= */
+
+    function createLine(
+        outerX,
+        outerY,
+        centerX,
+        centerY,
+        outerRadius,
+        centerRadius,
+        relationship,
+        index
+    ) {
+
+        const start =
+            pointOnCircle(
+                outerX,
+                outerY,
+                centerX,
+                centerY,
+                outerRadius
+            );
+
+
+        const end =
+            pointOnCircle(
+                centerX,
+                centerY,
+                outerX,
+                outerY,
+                centerRadius
+            );
+
+
+        const gradientId =
+            `relationship-gradient-${index}`;
+
+
+        const gradient =
+            createRelationshipGradient(
+                gradientId,
+                relationship.types,
+                start.x,
+                start.y,
+                end.x,
+                end.y
+            );
+
+
+        const defs =
+            svg.querySelector(
+                "defs"
+            );
+
+
+        defs.appendChild(
+            gradient
+        );
+
+
+        /* Основная линия */
+
+        const line =
+            createSvgElement(
+                "line",
+                {
+                    x1: start.x,
+                    y1: start.y,
+                    x2: end.x,
+                    y2: end.y,
+
+                    class:
+                        "relationship-line",
+
+                    stroke:
+                        `url(#${gradientId})`
+                }
+            );
+
+
+        svg.appendChild(
+            line
+        );
+
+
+        /* Световой блик */
+
+        const glint =
+            createSvgElement(
+                "line",
+                {
+                    x1: start.x,
+                    y1: start.y,
+                    x2: end.x,
+                    y2: end.y,
+
+                    class:
+                        "relationship-glint active"
+                }
+            );
+
+
+        /*
+         * Задержки УБРАНЫ.
+         *
+         * Все блики теперь имеют:
+         *
+         * animation-delay: 0s
+         *
+         * и начинают движение одновременно.
+         */
+
+        glint.style.animationDelay =
+            "0s";
+
+
+        svg.appendChild(
+            glint
+        );
+
+    }
+
+
+    /* =========================================================
+       RENDER MAP
+       ========================================================= */
+
+    function renderMap() {
+
+        const selected =
+            characters.find(
+                character =>
+                    character.id ===
+                    selectedCharacter
+            );
+
+
+        if (!selected) {
+            return;
+        }
+
+
+        /*
+         * ================================================
+         * ВАЖНОЕ ИСПРАВЛЕНИЕ
+         *
+         * Удаляем старые внешние ноды.
+         *
+         * Раньше SVG очищался,
+         * но HTML-ноды оставались.
+         *
+         * Поэтому при каждом переключении
+         * персонажа старые имена и картинки
+         * продолжали находиться под новыми.
+         * ================================================
+         */
+
+        mapStage
+            .querySelectorAll(
+                ".node:not(.node-center)"
+            )
+            .forEach(
+                node =>
+                    node.remove()
+            );
+
+
+        renderCenterNode(
+            selected
+        );
+
+
+        /*
+         * Очищаем SVG
+         */
+
+        svg.innerHTML = "";
+
+
+        const defs =
+            createSvgElement(
+                "defs"
+            );
+
+
+        svg.appendChild(
+            defs
+        );
+
+
+        /*
+         * Центр карты
+         */
+
+        const centerX = 360;
+        const centerY = 310;
+
+
+        /*
+         * Радиусы иконок
+         */
+
+        const centerRadius = 56;
+        const outerRadius = 56;
+
+
+        /*
+         * Остальные персонажи
+         */
+
+        const others =
+            characters.filter(
+                character =>
+                    character.id !==
+                    selectedCharacter
+            );
+
+
+        /*
+         * Радиус окружности
+         */
+
+        const circleRadius = 245;
+
+
+        others.forEach(
+            (character, index) => {
+
+                const angle =
+                    (
+                        -Math.PI / 2
+                    )
+                    +
+                    (
+                        index *
+                        (
+                            (Math.PI * 2) /
+                            others.length
+                        )
+                    );
+
+
+                const x =
+                    centerX +
+                    Math.cos(angle) *
+                    circleRadius;
+
+
+                const y =
+                    centerY +
+                    Math.sin(angle) *
+                    circleRadius;
+
+
+                /*
+                 * Ищем настоящую связь.
+                 */
+
+                const relationship =
+                    getRelationship(
+                        selectedCharacter,
+                        character.id
+                    );
+
+
+                /*
+                 * Если связи нет —
+                 * временно показываем
+                 * "Не знакомы".
+                 */
+
+                const actualRelationship =
+                    relationship ||
+                    {
+                        a:
+                            selectedCharacter,
+
+                        b:
+                            character.id,
+
+                        types:
+                            ["unknown"]
+                    };
+
+
+                /*
+                 * Создаём линию.
+                 */
+
+                createLine(
+                    x,
+                    y,
+                    centerX,
+                    centerY,
+                    outerRadius,
+                    centerRadius,
+                    actualRelationship,
+                    index
+                );
+
+
+                /*
+                 * Создаём HTML-ноду.
+                 */
+
+                const node =
+                    createCharacterNode(
+                        character
+                    );
+
+
+                node.style.left =
+                    `${(
+                        x / 720
+                    ) * 100}%`;
+
+
+                node.style.top =
+                    `${(
+                        y / 620
+                    ) * 100}%`;
+
+
+                mapStage.appendChild(
+                    node
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       INITIAL RENDER
+       ========================================================= */
+
+    renderCharacterSelector();
+
+    renderMap();
+
+
+    /* =========================================================
+       RESIZE
+       ========================================================= */
+
+    let resizeTimer;
+
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            clearTimeout(
+                resizeTimer
+            );
+
+
+            resizeTimer =
+                setTimeout(
+                    () => {
+
+                        renderMap();
+
+                    },
+                    100
+                );
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

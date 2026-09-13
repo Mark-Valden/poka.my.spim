@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Персонажи — Пока мы спим...</title>
+
+<style>
+
+/* =========================
+   FONTS
+========================= */
+
+@font-face {
+    font-family: "Cinzel";
+    src: url("cinzel_regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Comfortaa";
+    src: url("Comfortaa.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* =========================
+   BASE
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(185, 165, 141, 0.055),
+            transparent 38%
+        ),
+        #0b0b0d;
+    color: #e8e5e0;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.site-header {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(11, 11, 13, 0.92);
+}
+
+.header-inner {
+    width: min(1200px, calc(100% - 40px));
+    margin: 0 auto;
+    min-height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.logo {
+    font-family: "Cinzel", serif;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #a9a6a0;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.main-nav a {
+    position: relative;
+    color: #a9a6a0;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.25s ease;
+}
+
+.main-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -9px;
+
+    height: 1px;
+    background: #b9a58d;
+
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #e8e5e0;
+}
+
+.main-nav a:hover::after,
+.main-nav a.active::after {
+    transform: scaleX(1);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.page {
+    width: min(1100px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 90px 0 110px;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.page-intro {
+    max-width: 720px;
+    margin-bottom: 65px;
+}
+
+.eyebrow {
+    margin: 0 0 15px;
+
+    color: #b9a58d;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.page-title {
+    margin: 0 0 22px;
+
+    font-family: "Cinzel", serif;
+    font-size: clamp(38px, 6vw, 62px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+}
+
+.page-description {
+    max-width: 650px;
+    margin: 0;
+
+    color: #a9a6a0;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+
+/* =========================
+   CHARACTERS
+========================= */
+
+.characters-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+
+/* =========================
+   CHARACTER CARD
+========================= */
+
+.character-card {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+
+    min-height: 250px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.012)
+        );
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+    transition:
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.character-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(185, 165, 141, 0.28);
+
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.32),
+        0 0 35px rgba(185, 165, 141, 0.035);
+}
+
+
+/* =========================
+   DECORATIVE NUMBER
+========================= */
+
+.character-number {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+
+    color: rgba(185, 165, 141, 0.22);
+
+    font-family: "Cinzel", serif;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: 0.03em;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+.character-image {
+    position: relative;
+    min-height: 250px;
+    overflow: hidden;
+
+    background: #151519;
+}
+
+.character-image::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 65%,
+            rgba(11, 11, 13, 0.45)
+        ),
+        linear-gradient(
+            0deg,
+            rgba(11, 11, 13, 0.28),
+            transparent 35%
+        );
+
+    pointer-events: none;
+}
+
+.character-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    filter: saturate(0.82) contrast(1.04);
+
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+}
+
+.character-card:hover .character-image img {
+    transform: scale(1.035);
+    filter: saturate(0.92) contrast(1.06);
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.character-content {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 34px 55px 32px 38px;
+}
+
+.character-role {
+    margin-bottom: 7px;
+
+    color: #b9a58d;
+
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.character-name {
+    margin: 0 0 18px;
+
+    font-family: "Cinzel", serif;
+    font-size: 29px;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.character-divider {
+    width: 55px;
+    height: 1px;
+
+    margin-bottom: 19px;
+
+    background: rgba(185, 165, 141, 0.55);
+}
+
+.character-description {
+    max-width: 650px;
+    margin: 0 0 18px;
+
+    color: #aaa7a1;
+
+    font-size: 13px;
+    line-height: 1.85;
+}
+
+.character-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+
+    margin-bottom: 23px;
+
+    color: #77747a;
+    font-size: 11px;
+}
+
+.character-meta strong {
+    color: #c4c0b9;
+    font-weight: 400;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.character-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    width: fit-content;
+
+    margin-top: auto;
+
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+
+    color: #c7c1b8;
+
+    font-family: "Comfortaa", sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: color 0.25s ease;
+}
+
+.character-link::after {
+    content: "→";
+
+    color: #b9a58d;
+
+    transition: transform 0.25s ease;
+}
+
+.character-link:hover {
+    color: #ffffff;
+}
+
+.character-link:hover::after {
+    transform: translateX(5px);
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.character-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background: rgba(0, 0, 0, 0.78);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+}
+
+.character-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =========================
+   MODAL WINDOW
+========================= */
+
+.character-modal-window {
+    position: relative;
+
+    width: min(900px, 100%);
+    max-height: min(850px, calc(100vh - 60px));
+
+    overflow-y: auto;
+
+    border: 1px solid rgba(185, 165, 141, 0.22);
+
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(185, 165, 141, 0.07),
+            transparent 35%
+        ),
+        #111114;
+
+    box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.65),
+        0 0 60px rgba(0, 0, 0, 0.3);
+
+    transform: translateY(25px) scale(0.98);
+
+    transition:
+        transform 0.35s ease;
+}
+
+.character-modal.active .character-modal-window {
+    transform: translateY(0) scale(1);
+}
+
+
+/* =========================
+   MODAL CLOSE
+========================= */
+
+.character-modal-close {
+    position: absolute;
+    top: 17px;
+    right: 20px;
+
+    z-index: 5;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(11, 11, 13, 0.72);
+
+    color: #aaa7a1;
+
+    font-family: Arial, sans-serif;
+    font-size: 25px;
+    font-weight: 200;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.character-modal-close:hover {
+    background: rgba(185, 165, 141, 0.12);
+    border-color: rgba(185, 165, 141, 0.35);
+    color: #ffffff;
+}
+
+
+/* =========================
+   MODAL IMAGE
+========================= */
+
+.character-modal-image {
+    float: left;
+
+    width: 210px;
+    height: 280px;
+
+    margin: 0 32px 20px 0;
+
+    overflow: hidden;
+
+    background: #151519;
+}
+
+.character-modal-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    filter: saturate(0.82) contrast(1.04);
+}
+
+
+/* =========================
+   MODAL CONTENT
+========================= */
+
+.character-modal-content {
+    padding: 40px 55px 50px;
+    overflow: auto;
+}
+
+.character-modal-role {
+    margin-bottom: 6px;
+
+    color: #b9a58d;
+
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.character-modal-name {
+    margin: 0 0 12px;
+
+    font-family: "Cinzel", serif;
+    font-size: clamp(30px, 5vw, 48px);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.character-modal-divider {
+    width: 65px;
+    height: 1px;
+
+    margin-bottom: 16px;
+
+    background: rgba(185, 165, 141, 0.55);
+}
+
+
+/* =========================
+   MODAL META
+========================= */
+
+.character-modal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 35px;
+
+    margin-bottom: 32px;
+
+    color: #77747a;
+
+    font-size: 11px;
+}
+
+.character-modal-meta strong {
+    color: #c4c0b9;
+    font-weight: 400;
+}
+
+
+/* =========================
+   FULL DESCRIPTION
+========================= */
+
+.character-modal-text {
+    color: #aaa7a1;
+
+    font-size: 14px;
+    line-height: 0.2;
+
+    white-space: pre-line;
+}
+
+.character-modal-text p {
+    margin: 0 0 10px;
+    line-height: 1.75;
+}
+
+.character-modal-text p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   CONTACTS
+========================= */
+
+.contacts {
+    margin-top: 105px;
+    padding-top: 35px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    text-align: center;
+}
+
+.contacts-title {
+    margin: 0 0 18px;
+
+    color: #69676a;
+
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.contacts-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.contacts-links a {
+    color: #a9a6a0;
+
+    font-size: 12px;
+
+    transition: color 0.25s ease;
+}
+
+.contacts-links a:hover {
+    color: #e8e5e0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer {
+    padding: 30px 20px 45px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+    color: #56545a;
+
+    font-size: 10px;
+    letter-spacing: 0.08em;
+
+    text-align: center;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .header-inner {
+        min-height: auto;
+        padding: 22px 0;
+
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        gap: 22px;
+    }
+
+    .page {
+        padding: 65px 0 80px;
+    }
+
+    .page-intro {
+        margin-bottom: 45px;
+    }
+
+    .character-card {
+        grid-template-columns: 145px minmax(0, 1fr);
+        min-height: 220px;
+    }
+
+    .character-image {
+        min-height: 220px;
+    }
+
+    .character-content {
+        padding: 27px 32px 27px 25px;
+    }
+
+    .character-name {
+        font-size: 24px;
+    }
+
+    .character-number {
+        top: 14px;
+        right: 16px;
+        font-size: 30px;
+    }
+
+    .character-modal {
+        padding: 20px;
+    }
+
+    .character-modal-window {
+        max-height: calc(100vh - 40px);
+    }
+
+    .character-modal-image {
+        height: 270px;
+    }
+
+    .character-modal-content {
+        padding: 35px 35px 40px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .header-inner,
+    .page {
+        width: min(100% - 28px, 1100px);
+    }
+
+    .main-nav {
+        gap: 17px;
+    }
+
+    .main-nav a {
+        font-size: 10px;
+        letter-spacing: 0.05em;
+    }
+
+    .page-title {
+        font-size: 40px;
+    }
+
+    .page-description {
+        font-size: 13px;
+    }
+
+    .character-card {
+        grid-template-columns: 115px minmax(0, 1fr);
+        min-height: 190px;
+    }
+
+    .character-image {
+        min-height: 190px;
+    }
+
+    .character-content {
+        padding: 24px 20px 22px;
+    }
+
+    .character-role {
+        font-size: 8px;
+        letter-spacing: 0.13em;
+    }
+
+    .character-name {
+        margin-bottom: 13px;
+        font-size: 21px;
+    }
+
+    .character-divider {
+        width: 38px;
+        margin-bottom: 13px;
+    }
+
+    .character-description {
+        font-size: 11px;
+        line-height: 1.65;
+    }
+
+    .character-meta {
+        margin-bottom: 16px;
+        font-size: 9px;
+    }
+
+    .character-link {
+        font-size: 9px;
+    }
+
+    .character-number {
+        display: none;
+    }
+
+    .character-modal {
+        padding: 12px;
+    }
+
+    .character-modal-window {
+        max-height: calc(100vh - 24px);
+    }
+
+    .character-modal-image {
+        height: 220px;
+    }
+
+    .character-modal-content {
+        padding: 28px 22px 32px;
+    }
+
+    .character-modal-name {
+        font-size: 32px;
+    }
+
+    .character-modal-text {
+        font-size: 12px;
+        line-height: 0.2;
+    }
+
+    .character-modal-meta {
+        display: block;
+        font-size: 10px;
+    }
+
+    .character-modal-meta span {
+        margin-bottom: 6px;
+    }
+
+    .character-modal-close {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+
+@media (max-width: 430px) {
+
+    .main-nav {
+        flex-wrap: wrap;
+        row-gap: 10px;
+    }
+
+    .page {
+        padding-top: 50px;
+    }
+
+    .characters-list {
+        gap: 18px;
+    }
+
+    .character-card {
+        grid-template-columns: 100px minmax(0, 1fr);
+    }
+
+    .character-image {
+        min-height: 175px;
+    }
+
+    .character-content {
+        padding: 20px 15px;
+    }
+
+    .character-name {
+        font-size: 18px;
+    }
+
+    .character-description {
+        font-size: 10px;
+    }
+
+    .character-meta {
+        display: block;
+    }
+
+    .character-meta span {
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .character-modal-image {
+        height: 190px;
+    }
+
+    .character-modal-content {
+        padding: 25px 18px 30px;
+    }
+
+    .character-modal-name {
+        font-size: 28px;
+    }
+	.character-modal-image {
+    width: 135px;
+    height: 180px;
+
+    margin: 0 20px 14px 0;
+}
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            Пока мы <span>спим...</span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html">Главная</a>
+            <a href="characters.html" class="active">Персонажи</a>
+            <a href="about.html">Связи</a>
+            <a href="chapters.html">Главы</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <section class="page-intro">
+
+        <p class="eyebrow">Люди по ту сторону сна</p>
+
+        <h1 class="page-title">Персонажи</h1>
+
+        <p class="page-description">
+            Четыре человека. Один мир снов.
+            И тайны, которые лучше было никогда не видеть.
+        </p>
+
+    </section>
+
+
+    <section class="characters-list">
+
+
+        <!-- =========================
+             КЭТИ
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">01</div>
+
+            <div class="character-image">
+                <img
+                    src="https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_f2uguhf2uguhf2ug.png?raw=true"
+                    alt="Кэти"
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Ходящая по снам
+                </div>
+
+                <h2 class="character-name">
+                    Кэти
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Катя оказывается втянута в происходящее глубже, чем могла предположить. В мире, где сон перестаёт быть безопасным местом, ей приходится искать свой путь.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> 27</span>
+                    <span><strong>Роль:</strong> протагонист</span>
+                </div>
+
+                <button class="character-link" data-character="katie">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- =========================
+             КИЛ
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">02</div>
+
+            <div class="character-image">
+                <img
+                    src="https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_knly47knly47knly.png?raw=true"
+                    alt="Кил"
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Ходящий по снам
+                </div>
+
+                <h2 class="character-name">
+                    Кил
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Он относится к происходящему иначе, чем остальные. Там, где другие видят кошмар, Кил пытается понять правила мира, в который они случайно попали.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> 28</span>
+                    <span><strong>Роль:</strong> протагонист</span>
+                </div>
+
+                <button class="character-link" data-character="kil">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- =========================
+             КЭР
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">03</div>
+
+            <div class="character-image">
+                <img
+                    src="https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_3xyxs03xyxs03xyx.png?raw=true"
+                    alt="Кэр"
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Ходящая по снам
+                </div>
+
+                <h2 class="character-name">
+                    Кэр
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Кэр умеет сохранять спокойствие там, где остальные уже начинают терять контроль. Но даже ей приходится столкнуться с тем, чего невозможно объяснить разумом.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> 27</span>
+                    <span><strong>Роль:</strong> протагонист</span>
+                </div>
+
+                <button class="character-link" data-character="ker">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- =========================
+             КСАН
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">04</div>
+
+            <div class="character-image">
+                <img
+                    src="https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_8igyph8igyph8igy.png?raw=true"
+                    alt="Ксан"
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Бесталанный
+                </div>
+
+                <h2 class="character-name">
+                    Ксан
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Он привык наблюдать за происходящим со стороны, но мир снов постепенно заставляет его стать частью того, от чего он всегда держался подальше.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> 28</span>
+                    <span><strong>Роль:</strong> антигерой</span>
+                </div>
+
+                <button class="character-link" data-character="ksan">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- =========================
+             КОУЛ
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">05</div>
+
+            <div class="character-image">
+                <img
+                    src="https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_ckjlj4ckjlj4ckjl.png?raw=true"
+                    alt="Коул"
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Ходящий по снам
+                </div>
+
+                <h2 class="character-name">
+                    Коул
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Шут, облаченный в одежды короля, будучи полнейшим идиотом способен поломать несколько колес о свои шутовские палки.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> 24</span>
+                    <span><strong>Роль:</strong> антагонист</span>
+                </div>
+
+                <button class="character-link" data-character="cole">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- =========================
+             ДЖЕК
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">06</div>
+
+            <div class="character-image">
+                <img
+                    src="https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_xcaq33xcaq33xcaq.png?raw=true"
+                    alt="Джек"
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Колдун
+                </div>
+
+                <h2 class="character-name">
+                    Джек
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Несчастный муж, чью любимую погубили так просто. Он не сдался. Прошел сквозь века, чтобы отыскать подонка, оставившего его без возлюбленной, чтобы отомстить.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> 176</span>
+                    <span><strong>Роль:</strong> антигерой</span>
+                </div>
+
+                <button class="character-link" data-character="jack">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- =========================
+             К.
+        ========================== -->
+
+        <article class="character-card">
+
+            <div class="character-number">07</div>
+
+            <div class="character-image">
+                <img
+                    src="https://i.pinimg.com/736x/08/d4/d7/08d4d70f5e7b5bd1b029c67b39df5513.jpg"
+                    alt="К."
+                >
+            </div>
+
+            <div class="character-content">
+
+                <div class="character-role">
+                    Крадущий сны
+                </div>
+
+                <h2 class="character-name">
+                    К.
+                </h2>
+
+                <div class="character-divider"></div>
+
+                <p class="character-description">
+                    Когда-то К. был обычным человеком, который мог ходить по снам, но жажда бессмертия извратила его мораль.
+                </p>
+
+                <div class="character-meta">
+                    <span><strong>Возраст:</strong> неизвестно</span>
+                    <span><strong>Роль:</strong> антагонист</span>
+                </div>
+
+                <button class="character-link" data-character="k">
+                    Подробнее
+                </button>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+    <!-- =========================
+         CONTACTS
+    ========================== -->
+
+    <section class="contacts">
+
+        <p class="contacts-title">
+            Связаться с автором
+        </p>
+
+        <div class="contacts-links">
+            <a href="#" target="_blank">Telegram</a>
+            <a href="#" target="_blank">Threads</a>
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+    © 2026 Марк Вальден
+</footer>
+
+
+
+<!-- ==================================================
+     MODAL
+================================================== -->
+
+<div class="character-modal" id="characterModal">
+
+    <div class="character-modal-window">
+
+    <button
+        class="character-modal-close"
+        id="modalClose"
+        aria-label="Закрыть"
+    >
+        ×
+    </button>
+
+
+    <div class="character-modal-content">
+
+        <div class="character-modal-image">
+            <img
+                id="modalImage"
+                src=""
+                alt=""
+            >
+        </div>
+
+
+        <div class="character-modal-role" id="modalRole"></div>
+
+        <h2
+            class="character-modal-name"
+            id="modalName"
+        ></h2>
+
+        <div class="character-modal-divider"></div>
+
+
+        <div class="character-modal-meta">
+
+            <span>
+                <strong>Возраст:</strong>
+                <span id="modalAge"></span>
+            </span>
+
+            <span>
+                <strong>Роль:</strong>
+                <span id="modalCharacterRole"></span>
+            </span>
+
+        </div>
+
+
+        <div
+            class="character-modal-text"
+            id="modalText"
+        ></div>
+
+        <div style="clear: both;"></div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* ==================================================
+   ДАННЫЕ ПЕРСОНАЖЕЙ
+================================================== */
+
+const characters = {
+
+    katie: {
+        name: "Кэти",
+        role: "Ходящая по снам",
+        age: "27",
+        characterRole: "протагонист",
+
+        image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_f2uguhf2uguhf2ug.png?raw=true",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Кэти оказывается втянута в происходящее глубже, чем могла предположить.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">В мире, где сон перестаёт быть безопасным местом, ей приходится искать свой путь.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Узнав о том, что люди перестают просыпаться, вподают в кому и погибают, Кэти решила докопаться до истины и исправить положение вещей. Однако на ее пути встает преграда в лице брата Ксана и его хозяина, не имеющего даже имени. Кэти
+				собирает своих друзей, таких же ходящих по снам, чтобы встать на защиту простых людей. Она упряма, не любит и не умеет проигрывать, бросает вызов безымянному и клянется раскрыть его личность.
+            </p style="text-indent: 2em; text-align: justify;">
+			<p style="text-indent: 2em; text-align: justify;">Будучи неисправимой упрямицей, Кэти лезет из кожи вон, но, не сумев совладать с собственной гордыней и упрямостью, подвергает смертельной опасности своего друга Ксана.</p>
+        `
+    },
+
+
+    kil: {
+        name: "Кил",
+        role: "Ходящий по снам",
+        age: "28",
+        characterRole: "протагонист",
+
+        image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_knly47knly47knly.png?raw=true",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Он относится к происходящему иначе, чем остальные.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Там, где другие видят кошмар, Кил пытается не потерять надежду и не позволить потерять ее друзьям.
+            </p>
+            <p style="text-indent: 2em; text-align: justify;">Кил всегда был до безобразия оптимистичным весельчаком, душой компании, тем самым другом, который и слова правильные подберет, и разобьет нос, если посмеешь сомневаться в его словах. Вспыльчивый, но отходчивый. Его бесконечный оптимизм, наверное, стал тем, за что Кэр его полюбила. Он до сих пор не понимал, что эта дурочка в нем нашла, кроме красивого лица и литых мышц.
+            </p>
+			<p style="text-indent: 2em; text-align: justify;">В отличие от остальных, Кил был не так хорош в управлении своим даром, поэтому часто приходилось просить друзей о помощи. Нетерпим к тем, кто обижает слабых и уж тем более его друзей. Не способен на убийство, даже если от этого зависит его собственная жизнь. Сильно зависим от мнения Кэр.
+			</p>
+        `
+    },
+
+
+    ker: {
+        name: "Кэр",
+        role: "Ходящая по снам",
+        age: "27",
+        characterRole: "протагонист",
+
+        image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_3xyxs03xyxs03xyx.png?raw=true",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Кэр умеет сохранять спокойствие там, где остальные уже начинают терять контроль.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Но даже ей приходится столкнуться с тем, чего невозможно объяснить разумом.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Кэр можно назвать железной леди и это не будет преувеличением. Там, где остальные будут сомневаться, Кэр схватит булыжник и бросит его в проезжающий мимо лимузин местного богатенького сынка. Не из зависти, а потому что ей плевать на последствия. Ее не заботит то, что подумают о ней люди. Но все меняется, когда речь заходит о тех, кого она любит. С друзьями она мягкая и заботливая, берет на себя ответственность за принятие решений, не сомневается. Способна отставить в сторону эмоции и руководствоваться исключительно интересами своей команды.
+            </p>
+			<p style="text-indent: 2em; text-align: justify;">Любит внимание, часто перетягивает его на себя. Обесценивание проблем окружающих (даже близких) - в ее духе. 
+			</p>
+        `
+    },
+
+
+    ksan: {
+        name: "Ксан",
+        role: "Бесталанный",
+        age: "28",
+        characterRole: "антигерой",
+
+        image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_8igyph8igyph8igy.png?raw=true",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Он привык наблюдать за происходящим со стороны, но мир снов постепенно заставляет его стать частью того, от чего он хотел бы держаться подальше.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Из всей компании Ксан единственный, кого совершенно не увлекает то, чем занимаются его друзья. Сам-то он не способен на то, на что способны Кэти, Кэр и Кил. Даже его брат, как оказалось, может посещать чужие сны. Все они, но только не Ксан. Он не завидует. Он беспокоится за своих друзей, потому что понимает, что во всем происходящем что-то не чисто.
+            </p>
+			<p style="text-indent: 2em; text-align: justify;">Не желая обижать своих друзей, соглашается на эксперимент, за что платит особенно высокую цену: потерю собственной личности. Память, привычки, вкусы остались, но отношение к ним поменялось. Ксан помнил своих друзей, но перестал понимать, что они для него важны.
+			</p>
+        `
+    },
+
+
+    cole: {
+        name: "Коул",
+        role: "Ходящий по снам",
+        age: "24",
+        characterRole: "антагонист",
+
+        image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_ckjlj4ckjlj4ckjl.png?raw=true",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Шут, облаченный в одежды короля, будучи полнейшим идиотом способен поломать несколько колес о свои шутовские палки.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Коул никогда не отличался серьезностью. И если Кил дурачился, чтобы разрядить обстановку, Коул не прикидывался идиотом. Он искренне не понимал, почему вести себя так, как вел себя он, нельзя. Для него отпустить глупую шутку было таким же будничным делом, как есть или пить. Его союзник К. часто отчитывает Коула за его несерьезность, поскольку он с завидной регулярностью вносил рискованные корректировки в тщательно проработанные планы, чем ставил их под угрозу срыва.
+            </p>
+        `
+    },
+
+
+    jack: {
+        name: "Джек",
+        role: "Колдун",
+        age: "176",
+        characterRole: "антигерой",
+
+        image: "https://github.com/Mark-Valden/poka.my.spim/blob/main/Gemini_Generated_Image_xcaq33xcaq33xcaq.png?raw=true",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Несчастный муж, чью любимую погубили так просто. Он не сдался.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Прошел сквозь века, чтобы отыскать подонка, оставившего его без возлюбленной, чтобы отомстить.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">И плевать, сколько человек придется лишить жизни ради этого.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;"> Поклялся отправить на плаху того, кто сотворил зверство с его женой. Ради этого Джек даже прибегнул к изучению запретных искусств: он овладел древним жертвенным колдовством, благодаря которому мог проникать в чужие сны и даже влиять на них почти так же, как и К. Склонен к предательству, жесткий и практически лишен человеческих эмоций. Иногда позволяет себе посмеиваться с шуток Кила, но все же отчитывает его за несерьезность. Способен распознать ходящих по снам. До смешного старомоден и отвергает большинство современных благ цивилизации.
+            </p>
+        `
+    },
+
+
+    k: {
+        name: "К.",
+        role: "Крадущий сны",
+        age: "неизвестно",
+        characterRole: "антагонист",
+
+        image: "https://i.pinimg.com/736x/08/d4/d7/08d4d70f5e7b5bd1b029c67b39df5513.jpg",
+
+        text: `
+            <p style="text-indent: 2em; text-align: justify;">Когда-то К. был обычным человеком, обладавшим способностью ходить по снам, но жажда бессмертия извратила его мораль.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;"> Он нашел способ продлевать свою жизнь за счет светлого начала, которое можно добыть только в чужих снах.
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">К. смог победить смерть, но какой ценой...
+            </p>
+
+            <p style="text-indent: 2em; text-align: justify;">Другая информация стерта из памяти человечества. Кто-то намеренно подправил правила реальности.
+            </p>
+        `
+    }
+
+};
+
+
+/* ==================================================
+   ELEMENTS
+================================================== */
+
+const modal = document.getElementById("characterModal");
+
+const modalWindow = document.querySelector(
+    ".character-modal-window"
+);
+
+const modalClose = document.getElementById("modalClose");
+
+const modalImage = document.getElementById("modalImage");
+
+const modalRole = document.getElementById("modalRole");
+
+const modalName = document.getElementById("modalName");
+
+const modalAge = document.getElementById("modalAge");
+
+const modalCharacterRole =
+    document.getElementById("modalCharacterRole");
+
+const modalText = document.getElementById("modalText");
+
+
+/* ==================================================
+   OPEN MODAL
+================================================== */
+
+function openCharacter(characterId) {
+
+    const character = characters[characterId];
+
+    if (!character) return;
+
+
+    modalImage.src = character.image;
+    modalImage.alt = character.name;
+
+    modalRole.textContent = character.role;
+
+    modalName.textContent = character.name;
+
+    modalAge.textContent = character.age;
+
+    modalCharacterRole.textContent =
+        character.characterRole;
+
+    modalText.innerHTML = character.text;
+
+
+    modal.classList.add("active");
+
+    document.body.classList.add("modal-open");
+
+
+    /*
+       Возвращаем окно наверх,
+       если до этого пользователь
+       прокрутил предыдущую информацию.
+    */
+
+    modalWindow.scrollTop = 0;
+
+}
+
+
+/* ==================================================
+   CLOSE MODAL
+================================================== */
+
+function closeCharacter() {
+
+    modal.classList.remove("active");
+
+    document.body.classList.remove("modal-open");
+
+}
+
+
+/* ==================================================
+   BUTTONS
+================================================== */
+
+document
+    .querySelectorAll(".character-link")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const characterId =
+                button.dataset.character;
+
+            openCharacter(characterId);
+
+        });
+
+    });
+
+
+/* ==================================================
+   CLOSE BY X
+================================================== */
+
+modalClose.addEventListener(
+    "click",
+    closeCharacter
+);
+
+
+/* ==================================================
+   CLOSE BY BACKGROUND
+================================================== */
+
+modal.addEventListener("click", event => {
+
+    if (event.target === modal) {
+        closeCharacter();
+    }
+
+});
+
+
+/* ==================================================
+   CLOSE BY ESC
+================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            modal.classList.contains("active")
+        ) {
+
+            closeCharacter();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```
